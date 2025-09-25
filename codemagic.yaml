@@ -1,22 +1,15 @@
 workflows:
-  android-build:
-    name: Build Android APK
-    max_build_duration: 60
+  build-android:
+    name: Build APK para Android
     environment:
+      node: 18.20.2         # versão estável do Node
       vars:
-        NODE_VERSION: "20.0.0"
+        PACKAGE_NAME: "com.trexclicker"   # ajuste se precisar
     scripts:
-      - name: Install Node.js
+      - name: Instalar dependências
         script: |
-          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-          sudo apt-get install -y nodejs
-      - name: Install dependencies
-        script: npm install
-      - name: Build Next.js
-        script: npm run build
-      - name: Copy web assets to Capacitor
-        script: npx cap copy android
-      - name: Build Android APK
+          npm install
+      - name: Build APK (release)
         script: |
           cd android
           ./gradlew assembleRelease
