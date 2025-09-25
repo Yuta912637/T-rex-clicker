@@ -1,26 +1,22 @@
 workflows:
-  build-apk:
-    name: Build APK for Android
+  build-android:
+    name: Build APK Android
     max_build_duration: 60
     environment:
-      flutter: none
-      node: 20
+      node: stable
       cocoapods: default
+      flutter: none
     scripts:
-      - name: Install Node.js dependencies
+      - name: Instalar dependências Node.js
         script: |
           npm install
-      - name: Build web assets
-        script: |
-          npx next build
-          npx next export
-      - name: Copy web assets to Capacitor
+          npm run build
+      - name: Capacitor copy
         script: |
           npx cap copy android
-      - name: Build APK (release)
+      - name: Build Android APK
         script: |
           cd android
-          chmod +x gradlew
           ./gradlew assembleRelease
     artifacts:
       - android/app/build/outputs/**/*.apk
