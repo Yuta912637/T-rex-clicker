@@ -1,21 +1,19 @@
 workflows:
   build-android-apk:
     name: Build Android APK
+    max_build_duration: 60
     environment:
       vars:
-        NODE_VERSION: "20.6.0"  
+        ANDROID_SDK_ROOT: /opt/android-sdk
     scripts:
-      - name: Install Node.js dependencies
+      - name: Copy web assets
         script: |
-          npm install
-      - name: Build Next.js export
-        script: |
-          npx next build
-          npx next export
-      - name: Capacitor sync
-        script: |
-          npx cap sync android
-      - name: Build Android APK
+          echo "Pulando build do Next.js, copiando arquivos já prontos..."
+          ls -la ./out  # ou ./public, dependendo de onde estão seus arquivos
+          cp -R ./out/* ./android/app/src/main/assets/public/
+      - name: Make gradlew executable
+        script: chmod +x ./android/gradlew
+      - name: Build APK
         script: |
           cd android
           chmod +x ./gradlew
