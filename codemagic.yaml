@@ -1,17 +1,27 @@
 workflows:
-  build-android:
-    name: Build APK para Android
+  build-apk:
+    name: Build APK for Android
+    max_build_duration: 60
     environment:
-      node: 18.20.2         # versão estável do Node
-      vars:
-        PACKAGE_NAME: "com.trexclicker"   # ajuste se precisar
+      flutter: none
+      node: 20
+      cocoapods: default
+      xcode: none
     scripts:
-      - name: Instalar dependências
+      - name: Install Node.js dependencies
         script: |
           npm install
+      - name: Build web assets
+        script: |
+          npx next build
+          npx next export
+      - name: Copy web assets to Capacitor
+        script: |
+          npx cap copy android
       - name: Build APK (release)
         script: |
           cd android
+          chmod +x gradlew
           ./gradlew assembleRelease
     artifacts:
       - android/app/build/outputs/**/*.apk
