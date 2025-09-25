@@ -5,7 +5,6 @@ workflows:
     environment:
       node: stable
       cocoapods: default
-      flutter: none
     scripts:
       - name: Instalar dependências Node.js
         script: |
