@@ -3,9 +3,7 @@ workflows:
     name: Build Android APK
     environment:
       vars:
-        NODE_VERSION: "20.6.0"
-      flutter: none
-      xcode: none
+        NODE_VERSION: "20.6.0"  
     scripts:
       - name: Install Node.js dependencies
         script: |
