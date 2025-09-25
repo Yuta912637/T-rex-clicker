@@ -6,17 +6,11 @@ workflows:
       vars:
         ANDROID_SDK_ROOT: /opt/android-sdk
     scripts:
-      - name: Copy web assets
-        script: |
-          echo "Pulando build do Next.js, copiando arquivos já prontos..."
-          ls -la ./out  # ou ./public, dependendo de onde estão seus arquivos
-          cp -R ./out/* ./android/app/src/main/assets/public/
       - name: Make gradlew executable
         script: chmod +x ./android/gradlew
       - name: Build APK
         script: |
           cd android
-          chmod +x ./gradlew
           ./gradlew assembleRelease
     artifacts:
       - android/app/build/outputs/**/*.apk
